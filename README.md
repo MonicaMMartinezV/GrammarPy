@@ -79,51 +79,55 @@ match var_1:
 In this example if the var_1 has an integer value of 3, and var_2 has the same value as val_1, the output of the script will be “Path 3.Default”.
 
 
-<a name="_nbdgdid9urzo"></a>Models
+## **Models**
 
 The next table represents the grammar implemented for this project following the python syntax of a “match case” statement.
 
-|MT|→|MS SPS VN SC IN CSS|
-| :- | :- | :- |
-|CSS|<p>→</p><p>|</p>|<p>CS CSS</p><p>CS DC</p>|
-|CS|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>CST SPS VN SC IN CD</p><p>CST SPS VN SPS SC IN CD</p><p>CST SPS NM SC IN CD</p><p>CST SPS NM SPS SC IN CD</p>|
-|DC|<p>→</p><p>|</p>|<p>CST SPS US SC IN CD</p><p>CST SPS US SPS SC IN CD</p>|
-|CD|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>PNT PR CM EN CMM PL IN</p><p>VN SPS EQ SPS NM IN</p><p>VN SPS EQ SPS CM EN CMM IN</p><p>MT</p>|
-|EN|<p>→</p><p>|</p>|<p>VN</p><p>VN SP EN</p>|
-|VN|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>LT VS</p><p>US VS</p><p>LT</p><p>US</p>|
-|VS|<p>→</p><p>|</p><p>|</p><p>|</p><p>|</p><p>|</p><p>|</p>|<p>LT VS</p><p>LT</p><p>NM VS</p><p>NM</p><p>US VS</p><p>US</p><p>EP</p>|
-|TBS|→|TB+|
-|TB|→|SP SP SP SP|
-|IN|→|NL TBS|
-|SPS|→|SP\*|
-|LT|<p>→</p><p>|</p>|<p>"a" | "b" | ... | "z" | "A" </p><p>"B" | ... | "Z"</p>|
-|NM|→|"0" | "1" | "2" | ... | "9"|
-|MS|→|"match"|
-|CST|→|"case"|
-|PNT|→|"print"|
-|SP|→|" "|
-|SC|<p>→</p><p>|</p>|<p>":"</p><p>":" " "\*</p>|
-|NL|→|"~"|
-|US|→|"\_"|
-|EQ|→|"="|
-|EP|→|""|
-|PR|→|"("|
-|PL|→|")"|
-|CM|→|"‘"|
-|CMM|→|"’"|
+| Non-terminal | Production |
+|--------------|------------|
+| MT           | MS SPS VN SC IN CSS |
+| CSS          | CS CSS \| CS DC |
+| CS           | CST SPS VN SC IN CD \| CST SPS VN SPS SC IN CD \| CST SPS NM SC IN CD \| CST SPS NM SPS SC IN CD |
+| DC           | CST SPS US SC IN CD \| CST SPS US SPS SC IN CD |
+| CD           | PNT PR CM EN CMM PL IN \| VN SPS EQ SPS NM IN \| VN SPS EQ SPS CM EN CMM IN \| MT |
+| EN           | VN \| VN SP EN |
+| VN           | LT VS \| US VS \| LT \| US |
+| VS           | LT VS \| LT \| NM VS \| NM \| US VS \| US \| EP |
+| TBS          | TB+ |
+| TB           | SP SP SP SP |
+| IN           | NL TBS |
+| SPS          | SP* |
+| LT           | "a" \| "b" \| ... \| "z" \| "A" \| "B" \| ... \| "Z" |
+| NM           | "0" \| "1" \| "2" \| ... \| "9" |
+| MS           | "match" |
+| CST          | "case" |
+| PNT          | "print" |
+| SP           | " " |
+| SC           | ":" \| ":" " "* |
+| NL           | "~" |
+| US           | "_" |
+| EQ           | "=" |
+| EP           | "" |
+| PR           | "(" |
+| PL           | ")" |
+| CM           | "‘" |
+| CMM          | "’" |
+
+![parserError](GrammarModel.jpg)
 
 Each non-terminal and its meaning are attached in the following table.
+
+
 
 The grammar operates under certain assumptions. Firstly, it assumes that the "match case" statement does not include any preceding code unrelated to these statements and begins directly with "match". Additionally, other lines of code valid for Python but not pertaining to "match case" statements will not be accepted. Inside the “match case” block the rules implemented with the grammar are the following.
 
 - Match and case statements are next to a user-defined variable following a colon. Other valid Python alternatives to this, such as using an object instead of a variable, were not considered.
-  - `match var1:`  -> Accepted
-  - `match Person(age=19,Name="Pedro"):`  -> Not accepted
-
+  *match var1:  -> Accepted*
+  *match Person(age=19,Name="Pedro"):`  -> Not accepted*
 - Case statement must be on a new line followed by at least a single “tab” (which was defined as four blank spaces concatenated).
-  - Case can be followed by a number, but only one digit.
-    - `case 1:`  -> Accepted
-    - `case 15:`  -> Not accepted
+- Case can be followed by a number, but only one digit.
+  *case 1:  -> Accepted*
+  *case 15:`  -> Not accepted*
 
 - All “match” statements must have at least a default case.
 
@@ -150,9 +154,42 @@ The grammar operates under certain assumptions. Firstly, it assumes that the "ma
     ``
 The previously described ruleset was implemented into the CFG that works with separated characters, which means that the strings are analyzed one character at a time. It's necessary because a tokenizer designed for whole strings cannot effectively handle user-defined variables or strings, as each string must undergo a character-by-character analysis. Previous designs involved defining a set of variable names that a user can use instead of leaving it open, with the assumptions of following Python rules for variables.
 
+| Non-terminal | Production |
+|--------------|------------|
+| S            | MT |
+| MT           | MTS SP SPS VAR SPS CL NL TBS |
+| VAR          | "var1" \| "var2" |
+| LT           | "a" \| "b" \| ... \| "z" \| "A" \| "B" \| ... \| "Z" |
+| MTS          | "match" |
+| SPS          | SP SPS \| SP \| ᵋ |
+| SP           | " " |
+| TBS          | TB TBS \| TB |
+| TB           | SP SP SP SP |
+| NL           | "~" |
+| IN           | NL TB |
+| CL           | ":" |
+
+When applying the previous grammar with the sentence tokenizer "punkt", the test codes are tokenized into words and certain special characters. However, this process may result in the loss of all new lines and blank spaces. To meet the previously established requirements, the implementation must be capable of verifying the presence of new lines and tabs according to the specified rule set. Because of this, it was decided to implement the CFG with a letter by letter based parser, which allows checking user-defined strings and variables, spaces and newlines are not deleted and special characters are preserved to be analyzed by the parser.
+
+Regarding ambiguity, while implementing the CFG, certain ambiguous lines were encountered, particularly when handling cases with identical conditions. The following test code exemplifies this issue.
+
+```python
+match var_name1:
+    case 4  :
+    case 5:
+    case 5:
+    case 5:
+    case 5:
+    case 5:
+```
+This led the parser to produce a duplicated three as the next image shows.
+![parserError](TestError.jpg)
+
+To address this issue, a default case requirement was introduced to ensure the acceptance of the code, allowing the CFG to either converge or reject the test code. Ambiguity can also arise from left recursion, which was mitigated by crafting the grammar with a focus on right recursion exclusively. Left recursion was encountered only once, involving the concatenation of multiple spaces between "case" and the subsequent number or variable. These types of adjustments to resolve left recursion were rare.
+
+
 In order to accept these words, I modeled the DFA, as follows:
 ![Automaton](automatonImage.jpg)
-
 
 
 ## **Implementation**
