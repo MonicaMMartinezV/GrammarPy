@@ -1,0 +1,122 @@
+Accepted test cases --------------
+
+text = """match _var_name1:
+    case 1:
+        match varName2:
+            case 1:
+                match varName2:
+                    case 1:
+                        var = 'Hola Mundo'
+                    case _:
+                        print('Adios')
+            case _:
+                print('Adios')
+    case 2:
+        var = 'Hola Mundo'
+    case 3:
+        var = 0
+    case _:
+        print('Hola Benji')
+        """
+
+test_case1 = """match var_1:
+    case 1:
+        print('Path one')
+    case 2:
+        print('Path two')
+    case _:
+        print('Default')
+        """
+
+test_case2 = """match var_2:
+    case 1:
+        var = 1
+    case 2:
+        var = 2
+    case _:
+        var = 3
+        """
+
+test_case3 = """match _varName1:
+    case var1:
+        match var_2:
+            case 1:
+                var = 1
+            case 2:
+                var = 2
+            case _:
+                var = 3
+    case var2:
+        var = 2
+    case _:
+        var = 3
+        """
+
+test_case4 = """match _varName_23:
+    case var1:
+        match var_2:
+            case 1:
+                match var_2:
+                    case 1:
+                        var = 1
+                    case _:
+                        var = 3
+            case _:
+                var = 3
+    case var2:
+        var = 2
+    case _:
+        var = 3
+        """
+
+Not accepted test cases --------------
+
+test_caseF1 = """match var_1:
+    case 1:
+        print('Path one')
+    case 2:
+        print('Path two')
+    case 3:
+        print('Path three')
+        """
+
+test_caseF2 = """match var_2:
+    case 1:
+        var = var1
+    case 2:
+        var = var2
+    case _:
+        var = var3
+        """
+
+test_case3 = """match 1varName:
+    case var1:
+        match var_2:
+            case 1:
+                var = 1
+            case 2:
+                var = 2
+            case _:
+                var = 3
+    case var2:
+        var = 2
+    case _:
+        var = 3
+        """
+
+test_caseF4 = """match _varName_23:
+    case var1:
+        match var_2:
+            case 1:
+                match var_2:
+                    case 1:
+                        var = 1
+                    case _:
+                        var = 3
+            case _:
+                var = 3
+    case var2:
+        var = "2"
+    case _:
+        var = 323
+        """
