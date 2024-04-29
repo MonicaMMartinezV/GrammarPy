@@ -239,9 +239,9 @@ The CFG was implemented by using the nltk python module, some changes were done 
 
 The set of tests that are in the *TestGrammar* are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a invalid or valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
 
-**TestGrammar.txt**
+### **TestGrammar.txt**
 
-To provide more tests that should be and shouldn't be accepted by this grammar, I created the TestGrammar.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "rejected" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
+To provide more tests that should be and shouldn't be accepted by this grammar, I created the TestGrammar.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "Accepted test cases --------------" should be accepted, and the ones marked as "Not accepted test cases --------------" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
 
 ```python
 parser = nltk.ChartParser(grammar)
@@ -267,7 +267,13 @@ text = """match _var_name1:
         """
 ```
 
-**LL1 parsing and a specific string**
+### **Easy tests**
+
+If it is some kind of trouble, you can also access the following link where the tests are already written directly in the NLTK code, so you would only need to execute each part of the code. Those tests that the grammar does not accept will simply show you an error in the terminal. Access the following code to observe the set of valid and invalid tests for the provided grammar:
+
+https://colab.research.google.com/drive/1eow5eGIhsCTBtdNRksXWcsGYXP78LbAX?usp=sharing
+
+### **LL1 parsing and a specific string**
 To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm.
 
 For performing an LL(1) analysis of the given grammar, we first need to calculate the FIRST and FOLLOW sets for each non-terminal symbol. Then, with that information, we can construct the parsing table. When calculating the FOLLOW sets, the following rules were followed:
@@ -327,13 +333,13 @@ The grammar contains certain characteristics that were analyzed to determine the
 
 The grammar provided is a Context-Free Grammar (CFG), characterized by independent production rules and the ability to generate recursive structures. It does not extend beyond this level into the realms of Context-Sensitive Grammar or higher within the Chomsky Hierarchy. The grammar's structure and rules align with those of a typical CFG, allowing for the definition of syntactic structures with recursive elements and terminal and nonterminal symbols
 
-Why is not on any other level?
+### **Why is not on any other level?**
 Regular grammars are the least powerful in the Chomsky Hierarchy and cannot express certain patterns such as nested structures or balanced parentheses, which are present in the provided grammar.
 Context-Sensitive grammars allow rules to depend on the context surrounding symbols, which is not evident in the provided grammar. The rules are independent of context.
 While the provided grammar does include recursion, it is of a form allowed within Context-Free Grammars. There are no recursive rules that involve context-sensitive conditions or dependencies on surrounding symbols.
 
 
-### Complexity Analysis
+## Complexity Analysis
 
 #### Overall Complexity
 The overall complexity of nltk code depends on two main factors: the complexity of the defined Context-Free Grammar (CFG) and the complexity of parsing the input text using the CFG.
