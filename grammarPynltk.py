@@ -12,14 +12,15 @@ grammar = nltk.CFG.fromstring("""
     TBS -> TB TBS | TB
     TB -> SP SP SP SP
     IN -> NL TBS
+    SPS -> SP SPSP | SP
+    SPSP -> SP SPSP | EP
     LT -> "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
     NM -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
     MS -> "m" "a" "t" "c" "h"
     CST -> "c" "a" "s" "e"
     PNT -> "p" "r" "i" "n" "t"
-    SPS -> SP SPS | SP
     SP -> " "
-    SC -> ":" | SP ":"
+    SC -> ":" | SPS ":"
     NL -> "~"
     US -> "_"
     EQ -> "="
@@ -27,7 +28,7 @@ grammar = nltk.CFG.fromstring("""
     PR -> "("
     PL -> ")"
     CM -> "'"
-    CMM -> "'"
+    CMM -> "'"
 """)
 
 # Test the CFG
