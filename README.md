@@ -308,6 +308,11 @@ With this table in hand, I conducted two LL(1) parsing tasks:
 - Specific String LL(1) Parsing: The second set of tests involves performing LL(1) parsing on a specific string defined within the grammar domain. This test showcases the ability of the parser to correctly identify the syntactic structure of the input string. This table is located on the third page of the Google Sheets document named "LL1 example (Left Left Lookahead 1 example)" at the following link:
 https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
 
+### Why I decided to use LL(1) instead of a pushdown automata.
+
+For this project, it was decided to use LL(1) as part of the solution to the problem, but other solutions were considered, such as pushdown automata, which is also a powerful tool for syntactic analysis. However, an LL(1) parser is more suitable for grammatical structures with simpler and more predictable rules, such as those commonly found in programming languages. On the other hand, pushdown automata are more general and can handle more complex grammars, but that also means their implementation can become very complicated, especially when dealing with a large number of states and conditions like in our case. Additionally, the time complexity of a pushdown automaton can increase significantly, which could lead to performance issues in situations with longer input strings. The complexity of an LL(1) parser is linear, which means that the time it takes to analyze an input is proportional to the size of the input. This is because an LL(1) parser performs a recursive descent analysis, which is an efficient and deterministic process. On the other hand, the complexity of a pushdown automaton can vary depending on the grammar and the input, but in general, it can be exponential, especially in more complex grammars. This is because a pushdown automaton can have multiple possible paths to analyze an input, which may require exhaustive and potentially costly exploration to determine the result. In summary, for our scenario, where we have a relatively simple grammar but with some complexity, an LL(1) parser is more practical and efficient in terms of implementation and performance.
+
+
 ## **Analysis**
 
 This grammar is of type 2, in other words, it is a CFG (Context-Free Grammar). To determine this, an analysis of the grammar's components was conducted:
@@ -356,7 +361,6 @@ Regular grammars are the least powerful in the Chomsky Hierarchy and cannot expr
 Context-Sensitive grammars allow rules to depend on the context surrounding symbols, which is not evident in the provided grammar. The rules are independent of context.
 While the provided grammar does include recursion, it is of a form allowed within Context-Free Grammars. There are no recursive rules that involve context-sensitive conditions or dependencies on surrounding symbols.
 
-
 ## Complexity Analysis
 
 #### Overall Complexity
@@ -373,6 +377,7 @@ The overall complexity of nltk code depends on two main factors: the complexity 
    - The length and structure of the input text influence parsing time. Longer texts and texts that require backtracking or exploring many possible parse trees increase parsing complexity.
 
 So, considering the factors mentioned above, the overall complexity of the code can be classified as **O(n^3)**, where n is the length of the input text. This complexity arises from the combination of the complexity of the CFG definition and the parsing process. Recursive rules and rules with multiple expansions in the CFG contribute to its complexity, while the parsing process itself has a worst-case time complexity of O(n^3) due to the Chart parsing algorithm. Therefore, the provided code demonstrates O(n^3) complexity, with specific parts such as recursive rules and rules with multiple expansions showcasing the complexity inherent in the grammar definition (André L, 2021).
+
 
 ## **References**
 André, L. (2021, April 27). How to know the Time Complexity of an Algorithm? – Lídia André. https://www.lancaster.ac.uk/stor-i-student-sites/lidia-andre/2021/04/27/time-complexity-whats-that/
