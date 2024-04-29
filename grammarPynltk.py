@@ -5,9 +5,9 @@ grammar = nltk.CFG.fromstring("""
     CSS -> CS CSS | CS DC
     CS -> CST SPS VN SC IN CD | CST SPS VN SPS SC IN CD | CST SPS NM SC IN CD | CST SPS NM SPS SC IN CD
     DC -> CST SPS US SC IN CD | CST SPS US SPS SC IN CD
-    CD -> PNT PR CM EN CMM PL IN | VN SPS EQ SPS NM IN | VN SPS EQ SPS CM EN CMM IN
+    CD -> PNT PR CM EN CMM PL IN | VN SPS EQ SPS NM IN | VN SPS EQ SPS CM EN CMM IN | MT
     EN -> VN | VN SP EN
-    VN -> LT VS | LT
+    VN -> LT VS | US VS | LT | US
     VS -> LT VS | LT | NM VS | NM | US VS | US | EP
     TBS -> TB TBS | TB
     TB -> SP SP SP SP
@@ -28,19 +28,29 @@ grammar = nltk.CFG.fromstring("""
     PR -> "("
     PL -> ")"
     CM -> "'"
-    CMM -> "'"
+    CMM -> "'"
 """)
 
 # Test the CFG
 parser = nltk.ChartParser(grammar)
 
-text = """match var_name1:
-    case 4:
-        var = 4
-    case 5:
-        var = 'nose que poner'
+text = """match _var_name1:
+    case 1:
+        match varName2:
+            case 1:
+                match varName2:
+                    case 1:
+                        var = 'Hola Mundo'
+                    case _:
+                        print('Adios')
+            case _:
+                print('Adios')
+    case 2:
+        var = 'Hola Mundo'
+    case 3:
+        var = 0
     case _:
-        print('Juana la cubana')
+        print('Hola Benji')
         """
 
 text = text.replace('\n','~')
