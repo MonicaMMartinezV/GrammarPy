@@ -79,265 +79,126 @@ match var_1:
 In this example if the var_1 has an integer value of 3, and var_2 has the same value as val_1, the output of the script will be “Path 3.Default”.
 
 
-## **Model of the Solution**
+<a name="_nbdgdid9urzo"></a>Models
 
 The next table represents the grammar implemented for this project following the python syntax of a “match case” statement.
 
+|MT|→|MS SPS VN SC IN CSS|
+| :- | :- | :- |
+|CSS|<p>→</p><p>|</p>|<p>CS CSS</p><p>CS DC</p>|
+|CS|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>CST SPS VN SC IN CD</p><p>CST SPS VN SPS SC IN CD</p><p>CST SPS NM SC IN CD</p><p>CST SPS NM SPS SC IN CD</p>|
+|DC|<p>→</p><p>|</p>|<p>CST SPS US SC IN CD</p><p>CST SPS US SPS SC IN CD</p>|
+|CD|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>PNT PR CM EN CMM PL IN</p><p>VN SPS EQ SPS NM IN</p><p>VN SPS EQ SPS CM EN CMM IN</p><p>MT</p>|
+|EN|<p>→</p><p>|</p>|<p>VN</p><p>VN SP EN</p>|
+|VN|<p>→</p><p>|</p><p>|</p><p>|</p>|<p>LT VS</p><p>US VS</p><p>LT</p><p>US</p>|
+|VS|<p>→</p><p>|</p><p>|</p><p>|</p><p>|</p><p>|</p><p>|</p>|<p>LT VS</p><p>LT</p><p>NM VS</p><p>NM</p><p>US VS</p><p>US</p><p>EP</p>|
+|TBS|→|TB+|
+|TB|→|SP SP SP SP|
+|IN|→|NL TBS|
+|SPS|→|SP\*|
+|LT|<p>→</p><p>|</p>|<p>"a" | "b" | ... | "z" | "A" </p><p>"B" | ... | "Z"</p>|
+|NM|→|"0" | "1" | "2" | ... | "9"|
+|MS|→|"match"|
+|CST|→|"case"|
+|PNT|→|"print"|
+|SP|→|" "|
+|SC|<p>→</p><p>|</p>|<p>":"</p><p>":" " "\*</p>|
+|NL|→|"~"|
+|US|→|"\_"|
+|EQ|→|"="|
+|EP|→|""|
+|PR|→|"("|
+|PL|→|")"|
+|CM|→|"‘"|
+|CMM|→|"’"|
 
+Each non-terminal and its meaning are attached in the following table.
 
-MT
-→
-MS SPS VN SC IN CSS
-CSS
-→
-|
-CS CSS
-CS DC
-CS
-→
-|
-|
-|
-CST SPS VN SC IN CD
-CST SPS VN SPS SC IN CD
-CST SPS NM SC IN CD
-CST SPS NM SPS SC IN CD
-DC
-→
-|
-CST SPS US SC IN CD
-CST SPS US SPS SC IN CD
-CD
-→
-|
-|
-|
-PNT PR CM EN CMM PL IN
-VN SPS EQ SPS NM IN
-VN SPS EQ SPS CM EN CMM IN
-MT
-EN
-→
-|
-VN
-VN SP EN
-VN
-→
-|
-|
-|
-LT VS
-US VS
-LT
-US
-VS
-→
-|
-|
-|
-|
-|
-|
-LT VS
-LT
-NM VS
-NM
-US VS
-US
-EP
-TBS
-→
-TB+
-TB
-→
-SP SP SP SP
-IN
-→
-NL TBS
-SPS
-→
-SP*
-LT
-→
-|
-"a" | "b" | ... | "z" | "A" 
-"B" | ... | "Z"
-NM
-→
-"0" | "1" | "2" | ... | "9"
-MS
-→
-"match"
-CST
-→
-"case"
-PNT
-→
-"print"
-SP
-→
-" "
-SC
-→
-|
-":"
-":" " "*
-NL
-→
-"~"
-US
-→
-"_"
-EQ
-→
-"="
-EP
-→
-""
-PR
-→
-"("
-PL
-→
-")"
-CM
-→
-"‘"
-CMM
-→
-"’"
+The grammar operates under certain assumptions. Firstly, it assumes that the "match case" statement does not include any preceding code unrelated to these statements and begins directly with "match". Additionally, other lines of code valid for Python but not pertaining to "match case" statements will not be accepted. Inside the “match case” block the rules implemented with the grammar are the following.
 
+- Match and case statements are next to a user-defined variable following a colon. Other valid Python alternatives to this, such as using an object instead of a variable, were not considered.
+  - `match var1:`  -> Accepted
+  - `match Person(age=19,Name="Pedro"):`  -> Not accepted
 
+- Case statement must be on a new line followed by at least a single “tab” (which was defined as four blank spaces concatenated).
+  - Case can be followed by a number, but only one digit.
+    - `case 1:`  -> Accepted
+    - `case 15:`  -> Not accepted
 
+- All “match” statements must have at least a default case.
 
-- an
-- and
-- anca
-- anarya
-- amil
+- All “case” statements must be followed by a new line and at least a single “tab”.
+
+- Case only have three valid Python code lines:
+  - Print with only text inside.
+    - `print('Test')`  -> Accepted
+    - `print(var1)`  -> Not accepted
+  - Variable assignments with only a variable and a string or a variable and a number.
+    - `var1 = 'Test'`  -> Accepted
+    - `var1 = var2`  -> Not accepted
+
+- Another “match case” set.
+
+- Default case statements are followed by an underscore “_” and a colon.
+  - The default case has the same rules as the other types of cases.
+
+- End of the code must be a statement, it must not be left blank.
+  - ``
+    case _:
+        print('Test')    -> Accepted
+    case _:  -> Not accepted
+    ``
+The previously described ruleset was implemented into the CFG that works with separated characters, which means that the strings are analyzed one character at a time. It's necessary because a tokenizer designed for whole strings cannot effectively handle user-defined variables or strings, as each string must undergo a character-by-character analysis. Previous designs involved defining a set of variable names that a user can use instead of leaving it open, with the assumptions of following Python rules for variables.
 
 In order to accept these words, I modeled the DFA, as follows:
 ![Automaton](automatonImage.jpg)
 
-This automaton operates with the initial state "start" and two states, "s1" and "s2", which are designated as accepted states. Transitions are defined for each state and input symbol combination. This DFA is designed to accept words like "amil", "an", "anarya", "anca", and "and" from the Elvish language. 
 
-*The presented automaton is equivalent to the following regular expression:*
-
-DFA 1 -> RE 1: 
-
-{^a(mil|n(d|arya|ca)?)$}
 
 ## **Implementation**
-For my implementation of lexical analysis, I followed the structure defined in the "automatonElven15.pl" file. To use the file, you can input in two ways:
 
-First, with the following format:
-
-*dfa("amil").*
-
-With this, the program should return *true* if it complies with the rules established in the automaton, and *false* if the string is not part of the language.
-
-Some examples of inputs and outputs are: 
-```
-?- dfa('a').
-[a]
-false.
-
-?- dfa("cdn").
-[c,d,n]
-false.
-
-?- dfa("anarya").
-[a,n,a,r,y,a]
-true.
-
-?- dfa("amil").
-[a,m,i,l]
-true.
-```
-
-Second, you can use the test cases from the "test.pl" file:
-
-*Format:*
-
-testStatusNumerodeltest.
-
-*Example:*
-
-testAccepted5.
-
-In this case the program should return a message of what is expected, the string and the response provided by the automaton.
-
-Some examples of inputs and outputs are: 
-```
-?- testRejected7.
-Must be false: [a,n,n,a]
-false.
-
-?- testAccepted5.
-Must be true: [a,m,i,l]
-true.
-
-?- testRejected4.
-Must be false: [a,m,i,l,a]
-false.
-
-?- testAccepted3.
-Must be true: [a,n,c,a]
-true.
-```
-
-Here's a breakdown of how "automatonElven15.pl" file works:
-
-- **States definition:** The automaton defines multiple states, including a starting state (start) and several intermediary states (s0 to s8).
-
-- **Initial state:** The starting state is defined as 'start', indicating the initial point.
-
-- **Accepted states:** States 's1' and 's2' are marked as accepted states, indicating that reaching these states signifies the successful recognition of an Elvish word.
-
-- **Transitions:** Transitions between states are defined based on the input characters.
-
-- **Acceptance function:** Defines the acceptance criteria for the input string. If the current state is an accepted state and the input string is empty, the word is accepted as an Elvish word.
-
-- **Aux Function:** Initializes the acceptance process by starting from the initial state and recursively traversing the transitions based on the input characters.
-
-- **DFA Function:** Converts a given string into a list of characters and initiates the acceptance process for each string. If the string is accepted, it returns true; otherwise, false.
-
-## **Tests**
-The "test.pl" file contains all the test cases for the automaton. You just need to follow these steps:
-1. **Download and consult files:**
-
-   You must download both files "automatonElven15.pl" and "test.pl". Then, open your SWI-Prolog application, where you will only consult the "test.pl" file.
-   
-2. **Call the function:**
-  
-   You should call the function of the test case you want to check, and a message will be displayed indicating the expected result, the word in question, and the response provided by the automaton, whether it is *true* or *false*.
-   ```
-   ?- testRejected7.
-   Must be false: [a,n,n,a]
-   false.
-   ```
-   
-3. **Use this format:**
-
-   testStatusNumerodeltest.
-   
-   *Example:*
-   
-   testAccepted5.
-
-## **Analysis**
-The complexity of this code primarily depends on the length of the input string and the number of transitions required to process it. Since Prolog operates on a non-deterministic and deterministic basis, and explores all possible paths, the complexity can be high for larger input strings or automata with many states and transitions. 
-
-However, the complexity can be bounded by the size of the automaton and the length of the input string. The overall complexity of this is $O(n)$, where n is the length of the input string, because the program processes the input character by character, transitioning between states. This is equivalent to the next code:
+The CFG was implemented by using the nltk python module, some changes were done to make it work with the library, the main ones being the definitions of the letters and numbers. The module has to have the whole alphabet and numbers digit by digit defined, the same goes for reserved words like “match”, “case” and “print”. Left recursion was
 
 ```python
-for element in list:  # Through the list
-    print(element)
+"""
+    MT -> MS SPS VN SC IN CSS
+    CSS -> CS CSS | CS DC
+    CS -> CST SPS VN SC IN CD | CST SPS VN SPS SC IN CD | CST SPS NM SC IN CD | CST SPS NM SPS SC IN CD
+    DC -> CST SPS US SC IN CD | CST SPS US SPS SC IN CD
+    CD -> PNT PR CM EN CMM PL IN | VN SPS EQ SPS NM IN | VN SPS EQ SPS CM EN CMM IN | MT
+    EN -> VN | VN SP EN
+    VN -> LT VS | US VS | LT | US
+    VS -> LT VS | LT | NM VS | NM | US VS | US | EP
+    TBS -> TB TBS | TB
+    TB -> SP SP SP SP
+    IN -> NL TBS
+    SPS -> SP SPSP | SP
+    SPSP -> SP SPSP | EP
+    LT -> "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+    NM -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+    MS -> "m" "a" "t" "c" "h"
+    CST -> "c" "a" "s" "e"
+    PNT -> "p" "r" "i" "n" "t"
+    SP -> " "
+    SC -> ":" | SPS ":"
+    NL -> "~"
+    US -> "_"
+    EQ -> "="
+    EP -> ""
+    PR -> "("
+    PL -> ")"
+    CM -> "'"
+    CMM -> "'"
+"""
 ```
 
-My first approach to the solution was to use an automaton in Prolog, which is also a natural solution. Initially, I constructed a DFA model with a total of 4 acceptance states, which, although maintaining complexity at $O(n)$, is suboptimal as it resulted in too many acceptance states. Upon redesigning and approaching the problem from a different perspective, I made a second approach to the problem, which only had 2 acceptance states. I choosed the second DFA design because it reduced the DFA code. Additionally, another approach I took to the problem was to create an equivalent regular expression and a automaton in python, which seemed like a valid option considering the $O(n)$ complexity of the automaton in prolog. However; based on the article of geeksforgeeks (GfG, 2023), unlike regular expressions, the DFA provides clear and specific rules for accepting or rejecting specific input strings, with each state and transition representing precise lexical patterns. In contrast, logical expressions may be harder to comprehend and maintain, especially for complex strings or languages with ambiguous rules. Additionally, the DFA offers efficient string verification through step-by-step analysis with deterministic transitions, ensuring fast and predictable processing, crucial for high-performance applications like large-scale text analysis.
+## **Tests**
+
+The following set of tests are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
+
+**Test 1.**
+
+## **Analysis**
+
 
 ## **References**
-- FasterCapital (2021). NFA vs DFA desentranar las diferencias en los modelos de automata finitos. (https://fastercapital.com/es/contenido/NFA-vs--DFA--desentranar-las-diferencias-en-los-modelos-de-automata-finitos.html)
-- OWTTA (2022). Elvish languages. One Wiki to Rule Them All. The Lord of the Rings Wiki.  (https://lotr.fandom.com/wiki/Elvish_languages)
-- GfG (2023, January 28). Application of Deterministic Finite Automata (DFA). GeeksforGeeks. (https://www.geeksforgeeks.org/application-of-deterministic-finite-automata-dfa/)
