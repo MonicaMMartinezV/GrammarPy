@@ -78,6 +78,8 @@ match var_1:
 ```
 In this example if the var_1 has an integer value of 3, and var_2 has the same value as val_1, the output of the script will be “Path 3.Default”.
 
+It's important to stress and emphasize that we will be using an LL(1) syntactic analysis, in other words, LL(1) parsing. This technique is widely employed due to its efficiency and simplicity in implementation. The term "LL" signifies that the analysis proceeds from left to right and focuses on the leftmost derivation, meaning that it examines the leftmost part of the input string first and progresses towards the right. The "(1)" specifies that the syntactic analyzer only uses a single lookahead symbol when making analysis decisions, simplifying the process and eliminating the need to backtrack in exploring possible paths. This approach proves particularly beneficial in the context of our solution as it allows for efficient and accurate analysis of the grammatical structure of expressions according to the rules defined in our grammar. By utilizing LL(1) syntactic analysis, we can construct a parser capable of swiftly processing the code and detecting potential syntactic errors, thus enhancing the robustness and reliability of our solution (GeeksforGeeks, 2023).
+
 
 ## **Models**
 
@@ -199,6 +201,8 @@ To address this issue, a default case requirement was introduced to ensure the a
 
 ## **Implementation**
 
+Now, in this part of implementation we used Natural Language Toolkit (NLTK). The Natural Language Toolkit (NLTK) is a widely used Python library in natural language processing (NLP). It provides a range of tools and resources for working with text and performing various NLP tasks such as tokenization, syntactic analysis, part-of-speech tagging, information extraction, among others. NLTK also offers an extensive collection of corpora, pre-trained linguistic models, and algorithms to assist in the development of efficient and effective natural language processing applications (Programación en Python - 3. Natural Language Toolkit, n.d.).
+
 The CFG was implemented by using the nltk python module, some changes were done to make it work with the library, the main ones being the definitions of the letters and numbers. The module has to have the whole alphabet and numbers digit by digit defined, the same goes for reserved words like “match”, “case” and “print”.
 
 ```python
@@ -237,6 +241,20 @@ The CFG was implemented by using the nltk python module, some changes were done 
 
 ## **Tests**
 
+To run NLTK on your computer, you first need to have Python installed (https://www.python.org/downloads/). Once Python is installed, you can install NLTK using the Python package manager, pip, by running the following command in your terminal or command prompt:
+
+```python
+pip install nltk
+```
+Then you need to download the the file "TestingGrammar.py" or "grammarPynltk" and run with the command:
+
+```python
+python grammartest.py
+```
+
+You can also use this Google Colab link where you can see the code, testing and LL(1) parsers:
+https://colab.research.google.com/drive/1eow5eGIhsCTBtdNRksXWcsGYXP78LbAX?usp=sharing
+
 The set of tests that are in the *TestGrammar* are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a invalid or valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
 
 ### **TestGrammar.txt**
@@ -274,7 +292,7 @@ If it is some kind of trouble, you can also access the following link where the 
 https://colab.research.google.com/drive/1eow5eGIhsCTBtdNRksXWcsGYXP78LbAX?usp=sharing
 
 ### **LL1 parsing and a specific string**
-To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm.
+To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm (GeeksforGeeks, 2023).
 
 For performing an LL(1) analysis of the given grammar, we first need to calculate the FIRST and FOLLOW sets for each non-terminal symbol. Then, with that information, we can construct the parsing table. When calculating the FOLLOW sets, the following rules were followed:
 
@@ -361,3 +379,5 @@ André, L. (2021, April 27). How to know the Time Complexity of an Algorithm? �
 GeeksforGeeks. (2021, June 11). Removal of ambiguity (Converting an Ambiguous grammar into Unambiguous grammar). GeeksforGeeks. https://www.geeksforgeeks.org/removal-of-ambiguity-converting-an-ambiguos-grammar-into-unambiguos-grammar/
 Elimination of left recursion. (n.d.). https://www.csd.uwo.ca/~mmorenom/CS447/Lectures/Syntax.html/node8.html
 GeeksforGeeks. (2024, April 26). Python Tutorial Learn Python Programming. GeeksforGeeks. https://www.geeksforgeeks.org/python-programming-language/
+GeeksforGeeks. (2023). Construction of LL(1) Parsing Table. https://www.geeksforgeeks.org/construction-of-ll1-parsing-table/
+Programación en Python - 3. Natural Language Toolkit. (n.d.). https://sites.google.com/view/programacion-en-python/home/3-natural-language-toolkit
