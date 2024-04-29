@@ -117,7 +117,22 @@ The next table represents the grammar implemented for this project following the
 
 Each non-terminal and its meaning are attached in the following table.
 
-
+| Non-Terminal | Meaning           | Non-Terminal | Meaning           |
+|--------------|-------------------|--------------|-------------------|
+| MT           | Match             | NM           | Number            |
+| CSS          | Cases             | MS           | Match String      |
+| CS           | Case              | CST          | Case String       |
+| DC           | Default Case      | PNT          | Print             |
+| CD           | Code              | SP           | Space             |
+| EN           | Enunciate         | SC           | Space Colon       |
+| VN           | Variable Name     | NL           | New Line          |
+| VS           | Variable String   | US           | Underscore        |
+| TBS          | Tabs              | EQ           | Equality          |
+| TB           | Tab               | EP           | Epsilon           |
+| IN           | Indentation       | PR           | Right Parenthesis |
+| SPS          | Spaces            | PL           | Left Parenthesis  |
+| SPSP         | Spaces Prime      | CM           | Comma Left        |
+| LT           | Letter            | CMM          | Comma Right       |
 
 The grammar operates under certain assumptions. Firstly, it assumes that the "match case" statement does not include any preceding code unrelated to these statements and begins directly with "match". Additionally, other lines of code valid for Python but not pertaining to "match case" statements will not be accepted. Inside the “match case” block the rules implemented with the grammar are the following.
 
@@ -128,30 +143,23 @@ The grammar operates under certain assumptions. Firstly, it assumes that the "ma
 - Case can be followed by a number, but only one digit.
   *case 1:  -> Accepted*
   *case 15:`  -> Not accepted*
-
 - All “match” statements must have at least a default case.
-
 - All “case” statements must be followed by a new line and at least a single “tab”.
-
 - Case only have three valid Python code lines:
   - Print with only text inside.
-    - `print('Test')`  -> Accepted
-    - `print(var1)`  -> Not accepted
+    *print('Test') -> Accepted*
+    *print(var1) -> Not accepted*
   - Variable assignments with only a variable and a string or a variable and a number.
-    - `var1 = 'Test'`  -> Accepted
-    - `var1 = var2`  -> Not accepted
-
-- Another “match case” set.
-
+    *var1 = 'Test'  -> Accepted*
+    *var1 = var2  -> Not accepted*
+  - Another “match case” set.
 - Default case statements are followed by an underscore “_” and a colon.
-  - The default case has the same rules as the other types of cases.
-
+- The default case has the same rules as the other types of cases.
 - End of the code must be a statement, it must not be left blank.
-  - ``
-    case _:
-        print('Test')    -> Accepted
-    case _:  -> Not accepted
-    ``
+  *case _:*
+        *print('Test')  -> Accepted*
+  *case _:  -> Not accepted*
+
 The previously described ruleset was implemented into the CFG that works with separated characters, which means that the strings are analyzed one character at a time. It's necessary because a tokenizer designed for whole strings cannot effectively handle user-defined variables or strings, as each string must undergo a character-by-character analysis. Previous designs involved defining a set of variable names that a user can use instead of leaving it open, with the assumptions of following Python rules for variables.
 
 | Non-terminal | Production |
@@ -182,19 +190,16 @@ match var_name1:
     case 5:
     case 5:
 ```
+
 This led the parser to produce a duplicated three as the next image shows.
 ![parserError](TestError.jpg)
 
 To address this issue, a default case requirement was introduced to ensure the acceptance of the code, allowing the CFG to either converge or reject the test code. Ambiguity can also arise from left recursion, which was mitigated by crafting the grammar with a focus on right recursion exclusively. Left recursion was encountered only once, involving the concatenation of multiple spaces between "case" and the subsequent number or variable. These types of adjustments to resolve left recursion were rare.
 
 
-In order to accept these words, I modeled the DFA, as follows:
-![Automaton](automatonImage.jpg)
-
-
 ## **Implementation**
 
-The CFG was implemented by using the nltk python module, some changes were done to make it work with the library, the main ones being the definitions of the letters and numbers. The module has to have the whole alphabet and numbers digit by digit defined, the same goes for reserved words like “match”, “case” and “print”. Left recursion was
+The CFG was implemented by using the nltk python module, some changes were done to make it work with the library, the main ones being the definitions of the letters and numbers. The module has to have the whole alphabet and numbers digit by digit defined, the same goes for reserved words like “match”, “case” and “print”.
 
 ```python
 """
@@ -229,6 +234,7 @@ The CFG was implemented by using the nltk python module, some changes were done 
 """
 ```
 
+
 ## **Tests**
 
 The following set of tests are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
@@ -236,6 +242,18 @@ The following set of tests are designed to test the proposed ruleset and some of
 **Test 1.**
 
 ## **Analysis**
+
+**LL1 parsing and a specific string**
+To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm.
+
+For performing an LL(1) analysis of the given grammar, we first need to calculate the FIRST and FOLLOW sets for each non-terminal symbol. Then, with that information, we can construct the parsing table. When calculating the FOLLOW sets, the following rules were followed:
+
+![parserError](rulesFollow.jpg)
+
+Having computed the FIRST and FOLLOW sets for each non-terminal symbol according to the aforementioned rules, it resulted in a table that, due to its dimensions, cannot be directly screenshot. This table is located on the first page of the Google Sheets document named "FFT (First and follow table)" at the following link:
+https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
+
+With this table in hand, I conducted two LL(1) parsing tasks:
 
 
 ## **References**
