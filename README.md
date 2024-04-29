@@ -5,7 +5,7 @@ A grammar that that recognizes the Python language.
 
 ## **Description**
 
-Programming languages consist of various components, including syntax, semantics, and a predefined set of rules and reserved keywords for correct execution. Consequently, crafting a grammar for any language can be both interesting and challenging. In this project, a grammar was created to verify  'match case' statements following Python's rule set.
+Programming languages consist of various components, including syntax, semantics, and a predefined set of rules and reserved keywords for correct execution. Consequently, crafting a grammar for any language can be both interesting and challenging. In this project, a grammar was created to verify  'match case' statements following Python's rule set (GeeksforGeeks, 2024).
 
 Python is a high-level, interpreted programming language known for its simplicity, readability, and versatility. The last two characteristics listed are due to a clear and concise syntax, which emphasizes readability and reduces the cost of program maintenance. Python code is typically easy to understand, even for those new to programming, due to its use of meaningful indentation and English-like keywords.
 
@@ -194,7 +194,7 @@ match var_name1:
 This led the parser to produce a duplicated three as the next image shows.
 ![parserError](TestError.jpg)
 
-To address this issue, a default case requirement was introduced to ensure the acceptance of the code, allowing the CFG to either converge or reject the test code. Ambiguity can also arise from left recursion, which was mitigated by crafting the grammar with a focus on right recursion exclusively. Left recursion was encountered only once, involving the concatenation of multiple spaces between "case" and the subsequent number or variable. These types of adjustments to resolve left recursion were rare.
+To address this issue, a default case requirement was introduced to ensure the acceptance of the code, allowing the CFG to either converge or reject the test code. Ambiguity can also arise from left recursion, which was mitigated by crafting the grammar with a focus on right recursion exclusively (Elimination of left recursion , n.d.). Left recursion was encountered only once, involving the concatenation of multiple spaces between "case" and the subsequent number or variable. These types of adjustments to resolve left recursion were rare (GeeksforGeeks, 2021).
 
 
 ## **Implementation**
@@ -237,30 +237,11 @@ The CFG was implemented by using the nltk python module, some changes were done 
 
 ## **Tests**
 
-The following set of tests are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
+The set of tests that are in the *TestGrammar* are designed to test the proposed ruleset and some of the properties of the “match case” statements. Each of the tests represents a invalid or valid Python "match case" code block, indicating that the CFG will accept them if all the rules are properly implemented within the constraints detailed on this project.
 
-**Test 1.**
+**TestGrammar.txt**
 
-## **Analysis**
-
-**LL1 parsing and a specific string**
-To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm.
-
-For performing an LL(1) analysis of the given grammar, we first need to calculate the FIRST and FOLLOW sets for each non-terminal symbol. Then, with that information, we can construct the parsing table. When calculating the FOLLOW sets, the following rules were followed:
-
-![parserError](rulesFollow.jpg)
-
-Having computed the FIRST and FOLLOW sets for each non-terminal symbol according to the aforementioned rules, it resulted in a table that, due to its dimensions, cannot be directly screenshot. This table is located on the first page of the Google Sheets document named "FFT (First and follow table)" at the following link:
-https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
-
-With this table in hand, I conducted two LL(1) parsing tasks:
-- General LL(1) Parsing: The first set of tests involves performing LL(1) parsing on the grammar itself. This demonstrates the correctness of the parsing table generated from the grammar rules. This table is located on the second page of the Google Sheets document named "LL1 general (Left Left Lookahead 1 general)" at the following link:
-  https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
-
-- Specific String LL(1) Parsing: The second set of tests involves performing LL(1) parsing on a specific string defined within the grammar domain. This test showcases the ability of the parser to correctly identify the syntactic structure of the input string. This table is located on the third page of the Google Sheets document named "LL1 example (Left Left Lookahead 1 example)" at the following link:
-https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
-
-To provide more tests that should be and shouldn't be accepted by this grammar, I created the test.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "rejected" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
+To provide more tests that should be and shouldn't be accepted by this grammar, I created the TestGrammar.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "rejected" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
 
 ```python
 parser = nltk.ChartParser(grammar)
@@ -286,4 +267,91 @@ text = """match _var_name1:
         """
 ```
 
+**LL1 parsing and a specific string**
+To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm.
+
+For performing an LL(1) analysis of the given grammar, we first need to calculate the FIRST and FOLLOW sets for each non-terminal symbol. Then, with that information, we can construct the parsing table. When calculating the FOLLOW sets, the following rules were followed:
+
+![parserError](rulesFollow.jpg)
+
+Having computed the FIRST and FOLLOW sets for each non-terminal symbol according to the aforementioned rules, it resulted in a table that, due to its dimensions, cannot be directly screenshot. This table is located on the first page of the Google Sheets document named "FFT (First and follow table)" at the following link:
+https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
+
+With this table in hand, I conducted two LL(1) parsing tasks:
+- General LL(1) Parsing: The first set of tests involves performing LL(1) parsing on the grammar itself. This demonstrates the correctness of the parsing table generated from the grammar rules. This table is located on the second page of the Google Sheets document named "LL1 general (Left Left Lookahead 1 general)" at the following link:
+  https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
+
+- Specific String LL(1) Parsing: The second set of tests involves performing LL(1) parsing on a specific string defined within the grammar domain. This test showcases the ability of the parser to correctly identify the syntactic structure of the input string. This table is located on the third page of the Google Sheets document named "LL1 example (Left Left Lookahead 1 example)" at the following link:
+https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
+
+## **Analysis**
+
+This grammar is of type 2, in other words, it is a CFG (Context-Free Grammar). To determine this, an analysis of the grammar's components was conducted:
+
+**Start Symbol**: MT (Main Topic)
+**Nonterminals**:
+- MT
+- MS
+- CSS
+- CS
+- DC
+- CD
+- EN
+- VN
+- VS
+- TBS
+- TB
+- IN
+- SPS
+- SPSP
+- LT
+- NM
+- PR
+- PL
+- CM
+- CMM
+- US
+- EQ
+- EP
+- NL
+
+The grammar contains certain characteristics that were analyzed to determine the type of grammar. These characteristics are as follows:
+
+1. **Context-Free**: The grammar's production rules are independent of the context in which they appear. Each nonterminal can be replaced by its corresponding expansion regardless of the surrounding symbols.
+
+2. **Recursion**: The grammar includes recursive rules such as `VS -> LT VS`, allowing for nested structures and repetition of certain elements.
+
+3. **Terminal and Nonterminal Symbols**: Terminals are symbols that appear in the input text and cannot be further expanded, such as letters, numbers, and punctuation. Nonterminals represent syntactic categories and can be expanded into other symbols.
+
+4. **Production Rules**: The grammar defines production rules that specify how nonterminal symbols can be replaced by sequences of terminal and nonterminal symbols.
+
+The grammar provided is a Context-Free Grammar (CFG), characterized by independent production rules and the ability to generate recursive structures. It does not extend beyond this level into the realms of Context-Sensitive Grammar or higher within the Chomsky Hierarchy. The grammar's structure and rules align with those of a typical CFG, allowing for the definition of syntactic structures with recursive elements and terminal and nonterminal symbols
+
+Why is not on any other level?
+Regular grammars are the least powerful in the Chomsky Hierarchy and cannot express certain patterns such as nested structures or balanced parentheses, which are present in the provided grammar.
+Context-Sensitive grammars allow rules to depend on the context surrounding symbols, which is not evident in the provided grammar. The rules are independent of context.
+While the provided grammar does include recursion, it is of a form allowed within Context-Free Grammars. There are no recursive rules that involve context-sensitive conditions or dependencies on surrounding symbols.
+
+
+### Complexity Analysis
+
+#### Overall Complexity
+The overall complexity of nltk code depends on two main factors: the complexity of the defined Context-Free Grammar (CFG) and the complexity of parsing the input text using the CFG.
+
+#### Specific Parts Demonstrating Complexity
+
+1. **Complexity in CFG Definition**:
+   - The recursive rules such as `VS -> LT VS | LT | NM VS | NM | US VS | US | EP` contribute to the complexity of the CFG. Recursion can lead to exponential growth in the number of possible parse trees.
+   - Rules with multiple expansions like `CS -> CST SPS VN SC IN CD | CST SPS VN SPS SC IN CD | ...` increase the complexity as they introduce combinatorial possibilities.
+
+2. **Parsing Complexity**:
+   - The parsing algorithm used (`ChartParser` in this case) affects the parsing complexity. Chart parsing typically has a worst-case time complexity of O(n^3), where n is the length of the input sentence.
+   - The length and structure of the input text influence parsing time. Longer texts and texts that require backtracking or exploring many possible parse trees increase parsing complexity.
+
+So, considering the factors mentioned above, the overall complexity of the code can be classified as **O(n^3)**, where n is the length of the input text. This complexity arises from the combination of the complexity of the CFG definition and the parsing process. Recursive rules and rules with multiple expansions in the CFG contribute to its complexity, while the parsing process itself has a worst-case time complexity of O(n^3) due to the Chart parsing algorithm. Therefore, the provided code demonstrates O(n^3) complexity, with specific parts such as recursive rules and rules with multiple expansions showcasing the complexity inherent in the grammar definition (André L, 2021).
+
 ## **References**
+André, L. (2021, April 27). How to know the Time Complexity of an Algorithm? – Lídia André. https://www.lancaster.ac.uk/stor-i-student-sites/lidia-andre/2021/04/27/time-complexity-whats-that/
+GeeksforGeeks. (2021, June 11). Removal of ambiguity (Converting an Ambiguous grammar into Unambiguous grammar). GeeksforGeeks. https://www.geeksforgeeks.org/removal-of-ambiguity-converting-an-ambiguos-grammar-into-unambiguos-grammar/
+Elimination of left recursion. (n.d.). https://www.csd.uwo.ca/~mmorenom/CS447/Lectures/Syntax.html/node8.html
+GeeksforGeeks. (2024, April 26). Python Tutorial Learn Python Programming. GeeksforGeeks. https://www.geeksforgeeks.org/python-programming-language/
