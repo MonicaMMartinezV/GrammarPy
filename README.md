@@ -254,6 +254,36 @@ Having computed the FIRST and FOLLOW sets for each non-terminal symbol according
 https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
 
 With this table in hand, I conducted two LL(1) parsing tasks:
+- General LL(1) Parsing: The first set of tests involves performing LL(1) parsing on the grammar itself. This demonstrates the correctness of the parsing table generated from the grammar rules. This table is located on the second page of the Google Sheets document named "LL1 general (Left Left Lookahead 1 general)" at the following link:
+  https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
 
+- Specific String LL(1) Parsing: The second set of tests involves performing LL(1) parsing on a specific string defined within the grammar domain. This test showcases the ability of the parser to correctly identify the syntactic structure of the input string. This table is located on the third page of the Google Sheets document named "LL1 example (Left Left Lookahead 1 example)" at the following link:
+https://docs.google.com/spreadsheets/d/1WKnLy_EaHy_fjLwgSlaqiky6YbcslpDvQz8Ll8si1Ww/edit?usp=sharing
+
+To provide more tests that should be and shouldn't be accepted by this grammar, I created the test.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "rejected" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
+
+```python
+parser = nltk.ChartParser(grammar)
+
+# Here you copy the test, be careful with all the tabs, spaces and symbols
+text = """match _var_name1:
+    case 1:
+        match varName2:
+            case 1:
+                match varName2:
+                    case 1:
+                        var = 'Hola Mundo'
+                    case _:
+                        print('Adios')
+            case _:
+                print('Adios')
+    case 2:
+        var = 'Hola Mundo'
+    case 3:
+        var = 0
+    case _:
+        print('Hola Benji')
+        """
+```
 
 ## **References**
