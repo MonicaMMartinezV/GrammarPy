@@ -1,6 +1,23 @@
 Accepted test cases --------------
 
-text = """match _var_name1:
+# First test case to show the tree of the grammar parser.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
+text_init = """match v:
+    case 1:
+        v = 1
+    case _:
+        v = 2
+        """
+
+# Case 0: This test case parses and validates an input text that contains
+#         multiple nested match-case blocks. Each block contains at least
+#         one pattern and a default pattern.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
+text0 = """match _var_name1:
     case 1:
         match varName2:
             case 1:
@@ -19,6 +36,12 @@ text = """match _var_name1:
         print('Hola Benji')
         """
 
+# Case 1: This test case parses and validates an input text that contains
+#         multiple cases. Each case contains a call to a print function
+#         with a string inside parentheses and surrounded by colons.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
 test_case1 = """match var_1:
     case 1:
         print('Path one')
@@ -28,6 +51,12 @@ test_case1 = """match var_1:
         print('Default')
         """
 
+# Case 2: This test case parses and validates an input text that contains
+#         multiple cases. Each case contains a variable assignment with a
+#         numeric value.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
 test_case2 = """match var_2:
     case 1:
         var = 1
@@ -37,6 +66,13 @@ test_case2 = """match var_2:
         var = 3
         """
 
+# Case 3: This test case parses and validates an input text that contains
+#         multiple match-case blocks, with the first one containing a nested
+#         match-case inside. Each case includes a variable assignment with a
+#         numeric value.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
 test_case3 = """match _varName1:
     case var1:
         match var_2:
@@ -52,6 +88,12 @@ test_case3 = """match _varName1:
         var = 3
         """
 
+# Case 4: This test case parses and validates an input text that contains
+#         multiple match-case blocks. It also explores different
+#         variable names.
+# Expected behaviour.
+# Output:  "The text provided is valid. LL(1) parsing:" 
+#           and the LL1 parsing tree
 test_case4 = """match _varName_23:
     case var1:
         match var_2:
@@ -71,6 +113,10 @@ test_case4 = """match _varName_23:
 
 Not accepted test cases --------------
 
+# Case 5: This test case parses and validates an input text that contains
+#         multiple cases but lacks a default pattern.
+# Expected behaviour.
+# Output:  "The text provided is not valid. Unable to parse."
 test_caseF1 = """match var_1:
     case 1:
         print('Path one')
@@ -80,6 +126,10 @@ test_caseF1 = """match var_1:
         print('Path three')
         """
 
+# Case 6: This test case reveals a limitation of the implemented context-free
+#         grammar: variable-to-variable assignment was not implemented.
+# Limitation.
+# Output: "The text provided is not valid. Unable to parse."
 test_caseF2 = """match var_2:
     case 1:
         var = var1
@@ -89,7 +139,12 @@ test_caseF2 = """match var_2:
         var = var3
         """
 
-test_case3 = """match 1varName:
+# Case 7: This test case parses and validates an input text that contains
+#         multiple cases but a variable starts with a number instead of
+#         an underscore or a letter.
+# Expected behaviour.
+# Output: "The text provided is not valid. Unable to parse."
+test_caseF3 = """match 1varName:
     case var1:
         match var_2:
             case 1:
@@ -104,6 +159,11 @@ test_case3 = """match 1varName:
         var = 3
         """
 
+# Case 8: This test case exposes another limitation of the implemented
+#         context-free grammar: the print function is restricted to having
+#         only strings inside colons.
+# Limitation.
+# Output: "The text provided is not valid. Unable to parse."
 test_caseF4 = """match _varName_23:
     case var1:
         match var_2:
@@ -116,7 +176,7 @@ test_caseF4 = """match _varName_23:
             case _:
                 var = 3
     case var2:
-        var = "2"
+        print('22')
     case _:
         var = 323
         """
