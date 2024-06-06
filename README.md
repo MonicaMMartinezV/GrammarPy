@@ -259,7 +259,7 @@ The set of tests that are in the *TestGrammar* are designed to test the proposed
 
 ### **TestGrammar.txt**
 
-To provide more tests that should be and shouldn't be accepted by this grammar, I created the TestGrammar.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "Accepted test cases --------------" should be accepted, and the ones marked as "Not accepted test cases --------------" in the .txt file indicate that when you copy the test into the code, it shouldn't deploy anything. This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
+To provide more tests that should be and shouldn't be accepted by this grammar, I created the TestGrammar.txt file. It contains additional tests that, when copied into the NLTK code, will deploy the respective LL(1) parser. The tests marked as "Accepted test cases --------------" should be accepted and print "The text provided is valid. LL(1) parsing:" and the LL1 parsing tree; and the ones marked as "Not accepted test cases --------------" in the .txt file indicate that when you copy the test into the code, it should print "The text provided is not valid. Unable to parse.". This means the grammar didn't accept the test. All you need to do to run the tests is copy them one by one into this code section:
 
 ```python
 parser = nltk.ChartParser(grammar)
@@ -287,9 +287,59 @@ text = """match _var_name1:
 
 ### **Easy tests**
 
-If it is some kind of trouble, you can also access the following link where the tests are already written directly in the NLTK code, so you would only need to execute each part of the code. Those tests that the grammar does not accept will simply show you an error in the terminal. Access the following code to observe the set of valid and invalid tests for the provided grammar:
+If it is some kind of trouble, you can also access the following link where the tests are already written directly in the NLTK code, so you would only need to execute each part of the code. Those tests that the grammar does not accept will simply show you a message "The text provided is not valid. Unable to parse.". Access the following code to observe the set of valid and invalid tests for the provided grammar:
 
 https://colab.research.google.com/drive/1eow5eGIhsCTBtdNRksXWcsGYXP78LbAX?usp=sharing
+
+Here are two complete examples of how it looks when a case is valid and invalid:
+**Valid test**
+- Input:
+  ```python
+  # First test case to show the tree of the grammar parser.
+    # Expected behaviour.
+    # Output:  "The text provided is valid. LL(1) parsing:" 
+    #           and the LL1 parsing tree
+    text_init = """match v:
+        case 1:
+            v = 1
+        case _:
+            v = 2
+            """
+  ```
+  - Output expected:
+    ![AnsExp1](AnsExp1.jpg)
+    And the LL1 Parsing tree:
+    ![AnsExp2](AnsExp2.jpg)
+
+**Invalid test**
+- Input:
+    ```python
+    # Case 8: This test case exposes another limitation of the implemented
+    #         context-free grammar: the print function is restricted to having
+    #         only strings inside colons.
+    # Limitation.
+    # Output: "The text provided is not valid. Unable to parse."
+    test_caseF4 = """match _varName_23:
+        case var1:
+            match var_2:
+                case 1:
+                    match var_2:
+                        case 1:
+                            var = 1
+                        case _:
+                            var = 3
+                case _:
+                    var = 3
+        case var2:
+            print('22')
+        case _:
+            var = 323
+            """
+
+    parse_grammar(test_caseF4)
+        ```
+- Output expected:
+  ![AnsFail](AnsFail.jpg)
 
 ### **LL1 parsing and a specific string**
 To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm (GeeksforGeeks, 2023).
