@@ -294,7 +294,7 @@ https://colab.research.google.com/drive/1eow5eGIhsCTBtdNRksXWcsGYXP78LbAX?usp=sh
 Here are two complete examples of how it looks when a case is valid and invalid:
 **Valid test**
 - Input:
-  ```python
+  ```
   # First test case to show the tree of the grammar parser.
     # Expected behaviour.
     # Output:  "The text provided is valid. LL(1) parsing:" 
@@ -305,15 +305,18 @@ Here are two complete examples of how it looks when a case is valid and invalid:
         case _:
             v = 2
             """
+  
+    parse_grammar(text_init)
   ```
   - Output expected:
-    ![AnsExp1](AnsExp1.jpg)
-    And the LL1 Parsing tree:
-    ![AnsExp2](AnsExp2.jpg)
+![AnsExp1](AnsExp1.jpg)
+
+And the LL1 Parsing tree:
+![AnsExp2](AnsExp2.jpg)
 
 **Invalid test**
 - Input:
-    ```python
+    ```
     # Case 8: This test case exposes another limitation of the implemented
     #         context-free grammar: the print function is restricted to having
     #         only strings inside colons.
@@ -339,7 +342,7 @@ Here are two complete examples of how it looks when a case is valid and invalid:
     parse_grammar(test_caseF4)
         ```
 - Output expected:
-  ![AnsFail](AnsFail.jpg)
+![AnsFail](AnsFail.jpg)
 
 ### **LL1 parsing and a specific string**
 To ensure the correctness of the grammar and parser implementation, I analyzed a representative test. This test is accompanied by the results of LL(1) parsing, demonstrating the correctness of the parsing algorithm (GeeksforGeeks, 2023).
