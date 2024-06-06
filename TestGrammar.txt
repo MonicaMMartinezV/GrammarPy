@@ -10,6 +10,7 @@ text_init = """match v:
     case _:
         v = 2
         """
+parse_grammar(text_init)
 
 # Case 0: This test case parses and validates an input text that contains
 #         multiple nested match-case blocks. Each block contains at least
@@ -35,6 +36,7 @@ text0 = """match _var_name1:
     case _:
         print('Hola Benji')
         """
+parse_grammar(text0)
 
 # Case 1: This test case parses and validates an input text that contains
 #         multiple cases. Each case contains a call to a print function
@@ -50,6 +52,7 @@ test_case1 = """match var_1:
     case _:
         print('Default')
         """
+parse_grammar(test_case1)
 
 # Case 2: This test case parses and validates an input text that contains
 #         multiple cases. Each case contains a variable assignment with a
@@ -65,6 +68,7 @@ test_case2 = """match var_2:
     case _:
         var = 3
         """
+parse_grammar(test_case2)
 
 # Case 3: This test case parses and validates an input text that contains
 #         multiple match-case blocks, with the first one containing a nested
@@ -87,6 +91,7 @@ test_case3 = """match _varName1:
     case _:
         var = 3
         """
+parse_grammar(test_case3)
 
 # Case 4: This test case parses and validates an input text that contains
 #         multiple match-case blocks. It also explores different
@@ -110,6 +115,7 @@ test_case4 = """match _varName_23:
     case _:
         var = 3
         """
+parse_grammar(test_case4)
 
 Not accepted test cases --------------
 
@@ -125,6 +131,7 @@ test_caseF1 = """match var_1:
     case 3:
         print('Path three')
         """
+parse_grammar(test_caseF1)
 
 # Case 6: This test case reveals a limitation of the implemented context-free
 #         grammar: variable-to-variable assignment was not implemented.
@@ -138,6 +145,7 @@ test_caseF2 = """match var_2:
     case _:
         var = var3
         """
+parse_grammar(test_caseF2)
 
 # Case 7: This test case parses and validates an input text that contains
 #         multiple cases but a variable starts with a number instead of
@@ -158,6 +166,7 @@ test_caseF3 = """match 1varName:
     case _:
         var = 3
         """
+parse_grammar(test_caseF3)
 
 # Case 8: This test case exposes another limitation of the implemented
 #         context-free grammar: the print function is restricted to having
@@ -180,3 +189,4 @@ test_caseF4 = """match _varName_23:
     case _:
         var = 323
         """
+parse_grammar(test_caseF4)
